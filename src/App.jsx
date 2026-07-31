@@ -492,6 +492,157 @@ const CADENCIA_T1 = [
   { dia: "Dia 30", canal: "E-mail · Break-up", acao: "Feche o ciclo com elegância, porta aberta, conta em nurture." },
 ];
 
+// ---------- i18n: bilingual UI (PT/EN), like ABM Orchestrator / BD Cockpit ----
+// The header PT|EN toggle drives BOTH the interface (tr) and the generated
+// plan's language (translatePlan). Plan CONTENT still comes from the data.
+const UI = {
+  PT: {
+    "hdr.myplans": "Meus Planos", "hdr.saved": "Planos Salvos", "hdr.tag": "LATAM · B2B",
+    "hdr.close": "Fechar", "hdr.savedEmpty": "Nenhum plano salvo ainda.",
+    "hdr.savedHint": "Gere um plano e toque em \"Salvar este plano\".",
+    "hdr.open": "Abrir", "hdr.delete": "Excluir", "hdr.untitled": "Conta sem título",
+    "hdr.savedFooter": "Salvo apenas neste navegador. Até 30 planos.",
+    "s1.title": "1 · Sua empresa (vendedora)",
+    "s1.intro": "O plano é gerado com a lógica de venda DESTA empresa. Defina uma vez; fica salvo no seu navegador.",
+    "s1.name": "Nome da empresa / produto",
+    "s1.name.ph": "ex.: Wise, Adobe, RD Station, minha consultoria",
+    "s1.desc": "O que você vende, diferenciais e dores que resolve",
+    "s1.desc.ph": "ex.: plataforma de automação de marketing B2B; reduz CAC e tempo de ramp do SDR; corrige dados fragmentados entre CRM e mídia",
+    "s1.comp": "Concorrentes típicos", "s1.pers": "Personas-alvo", "opt": "opcional",
+    "s1.comp.ph": "ex.: HubSpot, Salesforce, planilhas", "s1.pers.ph": "ex.: CMO, Head de Growth, CFO",
+    "s2.title": "2 · Conta-alvo",
+    "s2.intro": "Informe a conta. A ferramenta pesquisa a empresa na web e monta o plano usando a lógica de entrada da vendedora e a metodologia GTM enterprise.",
+    "s2.company": "Empresa-alvo", "s2.company.ph": "ex.: Loft, Infracommerce, Gol Linhas Aéreas",
+    "s2.segment": "Segmento", "s2.size": "Porte", "s2.context": "Contexto adicional",
+    "s2.context.ph": "ex.: já usa Payoneer para repasses; abriu escritório no México em 2025",
+    "btn.generating": "Gerando plano...", "btn.fillSeller": "Preencha sua empresa acima",
+    "btn.generate": "Gerar Plano de Conta", "btn.sample": "Ver plano de exemplo", "diag": "Diagnóstico",
+    "route": "ROTA DO PLANO",
+    "meta.tier": "Tier", "meta.segment": "Segmento", "meta.potential": "Potencial", "meta.footprint": "Presença",
+    "meta.greenfield": "Greenfield", "fit": "ICP FIT SCORE",
+    "sec.context": "Contexto da conta", "insight": "Insight estratégico:",
+    "sec.stakeholders": "Mapa de stakeholders",
+    "th.nameRole": "Nome / Cargo", "th.roleType": "Tipo de papel", "th.nextStep": "Próximo passo", "th.linkedin": "LinkedIn",
+    "openProfile": "Abrir perfil ↗",
+    "stk.note": "Os links abrem uma busca de pessoas no LinkedIn por nome/cargo + empresa, levando ao perfil real sem risco de link quebrado.",
+    "sec.swot": "Visão estratégica — SWOT e faturamento",
+    "swot.for": "Forças", "swot.fra": "Fraquezas", "swot.opp": "Oportunidades de entrada", "swot.thr": "Ameaças ao deal",
+    "whynow": "POR QUE AGORA · SINAIS DE COMPRA", "revenue": "FATURAMENTO ANUAL",
+    "src.public": "fonte pública", "src.estimate": "estimativa — verifique",
+    "revenue.none": "Faturamento: nenhum dado público confiável encontrado na pesquisa; gráfico omitido por rigor (nada foi estimado).",
+    "rev.in": "em", "rev.noHistory": "Histórico de anos anteriores não encontrado em fontes públicas; exibindo apenas o valor confirmado.",
+    "quarterly": "COMPARATIVO TRIMESTRAL", "quarterly.src": "FONTE: balanços/RI",
+    "quarterly.note.a": "Barras claras:", "quarterly.note.b": "Barras destacadas:", "quarterly.note.c": "Variação mostrada é ano contra ano por trimestre.",
+    "sec.gap": "Estado atual & análise de gaps",
+    "th.category": "Categoria", "th.current": "Atual (estimado)", "th.maturity": "Maturidade", "th.gap": "gap",
+    "sec.plays": "Oportunidades de entrada", "play": "Play", "entrypoint": "Ponto de entrada", "impact": "Impacto", "effort": "esforço", "trigger": "Gancho:",
+    "sec.actions": "Plano de ação — 90 dias", "th.when": "Quando", "th.action": "Ação", "th.goal": "Objetivo",
+    "sec.risks": "Riscos & mitigações", "th.risk": "Risco", "th.prob": "Prob.", "th.impact": "Impacto", "th.mitigation": "Mitigação",
+    "sec.pitch": "Pitch central — framework 4C (15 min)",
+    "pitch.open": "Contexto da conta (2 min)", "pitch.problem": "Conflito · problema estrutural (3 min)",
+    "pitch.solution": "capacidade (5 min)", "pitch.cta": "CTA · pedido pequeno (2 min)",
+    "sec.discovery": "Discovery & tratamento de objeções", "meddic": "PERGUNTAS DE QUALIFICAÇÃO (MEDDIC)",
+    "matrix": "MATRIZ DE MENSAGEM POR PERSONA", "th.persona": "Persona", "th.pain": "Dor específica", "th.message": "Mensagem-chave", "th.channel": "Canal",
+    "objections": "OBJEÇÕES PROVÁVEIS",
+    "sec.cadence": "Cadência de prospecção — Tier 1",
+    "cadence.intro": "8 pontos de contato ao longo de 30 dias contados a partir do primeiro contato (Dia 0 = solicitação de conexão). Regra: quanto maior o tier, mais manual e menos automatizado.",
+    "sec.synthesis": "Síntese estratégica & recomendações", "accountread": "LEITURA DA CONTA", "nextstep": "PRÓXIMO PASSO →",
+    "btn.pdf": "Salvar em PDF", "btn.savePlan": "Salvar este plano", "btn.savedPlan": "✓ Plano salvo",
+    "pdf.note": "Na caixa de diálogo que abrir, escolha \"Salvar como PDF\". O arquivo é nomeado com a conta e leva sua assinatura no rodapé.",
+    "disclaimer": "Rascunho gerado por IA com pesquisa na web. Valide os dados de stakeholders e stack antes de usar com seu time.",
+  },
+  EN: {
+    "hdr.myplans": "My Plans", "hdr.saved": "Saved Plans", "hdr.tag": "LATAM · B2B",
+    "hdr.close": "Close", "hdr.savedEmpty": "No saved plans yet.",
+    "hdr.savedHint": "Generate a plan and tap \"Save this plan\".",
+    "hdr.open": "Open", "hdr.delete": "Delete", "hdr.untitled": "Untitled account",
+    "hdr.savedFooter": "Saved in this browser only. Up to 30 plans.",
+    "s1.title": "1 · Your company (seller)",
+    "s1.intro": "The plan is generated with THIS company's selling logic. Set it once; it's saved in your browser.",
+    "s1.name": "Company / product name",
+    "s1.name.ph": "e.g., Wise, Adobe, RD Station, my consultancy",
+    "s1.desc": "What you sell, differentiators and pains you solve",
+    "s1.desc.ph": "e.g., B2B marketing automation platform; cuts CAC and SDR ramp time; fixes fragmented data across CRM and media",
+    "s1.comp": "Typical competitors", "s1.pers": "Target personas", "opt": "optional",
+    "s1.comp.ph": "e.g., HubSpot, Salesforce, spreadsheets", "s1.pers.ph": "e.g., CMO, Head of Growth, CFO",
+    "s2.title": "2 · Target account",
+    "s2.intro": "Enter the account. The tool researches the company on the web and builds the plan using your seller's entry logic and enterprise GTM methodology.",
+    "s2.company": "Target company", "s2.company.ph": "e.g., Loft, Infracommerce, Gol Airlines",
+    "s2.segment": "Segment", "s2.size": "Size", "s2.context": "Additional context",
+    "s2.context.ph": "e.g., already uses Payoneer for payouts; opened a Mexico office in 2025",
+    "btn.generating": "Generating plan...", "btn.fillSeller": "Fill in your company above",
+    "btn.generate": "Generate Account Plan", "btn.sample": "View sample plan", "diag": "Diagnostics",
+    "route": "PLAN ROUTE",
+    "meta.tier": "Tier", "meta.segment": "Segment", "meta.potential": "Potential", "meta.footprint": "Footprint",
+    "meta.greenfield": "Greenfield", "fit": "ICP FIT SCORE",
+    "sec.context": "Account context", "insight": "Strategic insight:",
+    "sec.stakeholders": "Stakeholder map",
+    "th.nameRole": "Name / Role", "th.roleType": "Role type", "th.nextStep": "Next step", "th.linkedin": "LinkedIn",
+    "openProfile": "Open profile ↗",
+    "stk.note": "Links open a LinkedIn people search by name/role + company, leading to the real profile with no risk of a broken link.",
+    "sec.swot": "Strategic overview — SWOT and revenue",
+    "swot.for": "Strengths", "swot.fra": "Weaknesses", "swot.opp": "Entry opportunities", "swot.thr": "Threats to the deal",
+    "whynow": "WHY NOW · BUYING SIGNALS", "revenue": "ANNUAL REVENUE",
+    "src.public": "public source", "src.estimate": "estimate — verify",
+    "revenue.none": "Revenue: no reliable public data found in research; chart omitted for rigor (nothing was estimated).",
+    "rev.in": "in", "rev.noHistory": "Prior-year history not found in public sources; showing only the confirmed figure.",
+    "quarterly": "QUARTERLY COMPARISON", "quarterly.src": "SOURCE: filings/IR",
+    "quarterly.note.a": "Light bars:", "quarterly.note.b": "Highlighted bars:", "quarterly.note.c": "Change shown is year-over-year per quarter.",
+    "sec.gap": "Current state & gap analysis",
+    "th.category": "Category", "th.current": "Current (estimated)", "th.maturity": "Maturity", "th.gap": "gap",
+    "sec.plays": "Entry opportunities", "play": "Play", "entrypoint": "Entry point", "impact": "Impact", "effort": "effort", "trigger": "Trigger:",
+    "sec.actions": "Action plan — 90 days", "th.when": "When", "th.action": "Action", "th.goal": "Goal",
+    "sec.risks": "Risks & mitigations", "th.risk": "Risk", "th.prob": "Prob.", "th.impact": "Impact", "th.mitigation": "Mitigation",
+    "sec.pitch": "Core pitch — 4C framework (15 min)",
+    "pitch.open": "Account context (2 min)", "pitch.problem": "Conflict · structural problem (3 min)",
+    "pitch.solution": "capability (5 min)", "pitch.cta": "CTA · small ask (2 min)",
+    "sec.discovery": "Discovery & objection handling", "meddic": "QUALIFICATION QUESTIONS (MEDDIC)",
+    "matrix": "MESSAGE MATRIX BY PERSONA", "th.persona": "Persona", "th.pain": "Specific pain", "th.message": "Key message", "th.channel": "Channel",
+    "objections": "LIKELY OBJECTIONS",
+    "sec.cadence": "Outreach cadence — Tier 1",
+    "cadence.intro": "8 touchpoints over 30 days counted from first contact (Day 0 = connection request). Rule: the higher the tier, the more manual and less automated.",
+    "sec.synthesis": "Strategic synthesis & recommendations", "accountread": "ACCOUNT READ", "nextstep": "NEXT STEP →",
+    "btn.pdf": "Save as PDF", "btn.savePlan": "Save this plan", "btn.savedPlan": "✓ Plan saved",
+    "pdf.note": "In the dialog that opens, choose \"Save as PDF\". The file is named after the account and carries your signature in the footer.",
+    "disclaimer": "AI-generated draft with web research. Validate stakeholder and stack data before using it with your team.",
+  },
+};
+
+// STAGES / segment / size / cadence localized by language.
+const STAGES_I18N = {
+  PT: [
+    { id: "research", label: "Pesquisa da conta", sub: "Web: porte, mercado, notícias e sinais recentes" },
+    { id: "contexto", label: "Contexto & stakeholders", sub: "Visão geral, iniciativas, mapa de poder" },
+    { id: "gap", label: "Análise de gaps & plays", sub: "Stack atual da conta vs. sua oferta" },
+    { id: "acao", label: "Plano de ação & riscos", sub: "90 dias, mitigação" },
+    { id: "pitch", label: "Pitch central", sub: "Framework 4C, 15 minutos" },
+    { id: "disc", label: "Discovery & objeções", sub: "MEDDIC e contra-argumentos" },
+    { id: "analise", label: "Análise estratégica", sub: "SWOT, faturamento e recomendações" },
+  ],
+  EN: STAGES,
+};
+const SEGMENTOS_I18N = {
+  PT: ["E-commerce / Marketplace", "SaaS / Tecnologia", "Importação / Exportação", "Logística", "Agência / Serviços profissionais", "Viagens / Turismo", "Educação internacional", "Indústria", "Outro"],
+  EN: SEGMENTOS,
+};
+const SIZE_I18N = {
+  PT: ["Startup / PME (até 50 func.)", "Mid-market (50 a 500 func.)", "Enterprise (500+ func.)"],
+  EN: ["Startup / SMB (up to 50 employees)", "Mid-market (50 to 500 employees)", "Enterprise (500+ employees)"],
+};
+const CADENCIA_I18N = {
+  PT: CADENCIA_T1,
+  EN: [
+    { dia: "Day 0", canal: "LinkedIn · Connection", acao: "Connection request with no message. Let the profile speak first." },
+    { dia: "Day 2", canal: "LinkedIn · InMail", acao: "3 paragraphs: why the contact, a specific insight on the pain your offer solves at this account, a 15-min CTA." },
+    { dia: "Day 5", canal: "Email · Content", acao: "A customer case from the same segment. Don't ask for a meeting: create value before selling." },
+    { dia: "Day 7", canal: "Cold call", acao: "Mention the email and the case. Check whether the topic resonated and qualify. 3-5 minutes." },
+    { dia: "Day 10", canal: "LinkedIn · Post", acao: "A sharp comment on the stakeholder's recent post. Visibility without a pitch." },
+    { dia: "Day 14", canal: "Email · New angle", acao: "Reopen with fresh market data or a competitor move. Direct CTA." },
+    { dia: "Day 21", canal: "Cold call · Break-up", acao: "'I want to respect your time: does it make sense to keep going?' Sometimes it creates urgency." },
+    { dia: "Day 30", canal: "Email · Break-up", acao: "Close the loop gracefully, door open, account into nurture." },
+  ],
+};
+
 export default function App() {
   const [mode, setMode] = useState(() => {
     try {
@@ -520,6 +671,18 @@ export default function App() {
   // PT/EN toggle translates the generated plan afterwards (demo swaps instantly).
   const [contentLang, setContentLang] = useState("PT");
   const [translating, setTranslating] = useState(false);
+  // UI language (PT/EN), persisted. The header toggle sets it AND translates the
+  // current plan, so interface and content switch together (like ABM / BD).
+  const [uiLang, setUiLang] = useState(() => {
+    try { return localStorage.getItem("gtm-planner-lang") || "PT"; } catch (e) { return "PT"; }
+  });
+  const tr = (k) => (UI[uiLang] && UI[uiLang][k]) || UI.EN[k] || k;
+  useEffect(() => { try { localStorage.setItem("gtm-planner-lang", uiLang); } catch (e) {} }, [uiLang]);
+  function switchLang(target) {
+    if (target === uiLang && target === contentLang) return;
+    setUiLang(target);
+    setPlanLang(target); // translate the plan content into the same language
+  }
   const runRef = useRef({ brief: null, intel: "", saveId: null });
   const [saved, setSaved] = useState(() => {
     try {
@@ -913,7 +1076,7 @@ export default function App() {
               style={{ background: t.segTrack, border: "none", borderRadius: 10, cursor: "pointer", color: t.ink }}
             >
               <span style={{ fontSize: 14, lineHeight: 1 }}>☰</span>
-              <span style={{ ...display, fontSize: 14, fontWeight: 700 }}>My Plans</span>
+              <span style={{ ...display, fontSize: 14, fontWeight: 700 }}>{tr("hdr.myplans")}</span>
               {saved.length > 0 && (
                 <span style={{ ...body, fontSize: 11, fontWeight: 700, color: t.forest, background: t.bright, borderRadius: 999, padding: "1px 7px" }}>{saved.length}</span>
               )}
@@ -942,9 +1105,9 @@ export default function App() {
               className="px-2.5 py-1 rounded-full whitespace-nowrap"
               style={{ ...body, fontSize: 11, fontWeight: 600, color: t.gray, background: t.segTrack, letterSpacing: "0.02em" }}
             >
-              LATAM · B2B
+              {tr("hdr.tag")}
             </span>
-            <LangToggle t={t} lang={contentLang} onChange={setPlanLang} busy={translating} />
+            <LangToggle t={t} lang={uiLang} onChange={switchLang} busy={translating} />
             <ThemeIconButton t={t} mode={mode} onChange={setMode} />
           </div>
         </div>
@@ -952,40 +1115,40 @@ export default function App() {
 
       <main className="max-w-3xl mx-auto px-5 pb-24">
         <section className="no-print mt-8 p-6" style={{ background: t.card, border: `1px solid ${t.hair}`, borderRadius: 22, boxShadow: t.shadow }}>
-          <h2 style={{ ...display, fontSize: 18, fontWeight: 700 }}>1 · Your company (seller)</h2>
+          <h2 style={{ ...display, fontSize: 18, fontWeight: 700 }}>{tr("s1.title")}</h2>
           <p className="mt-1 text-sm" style={{ color: t.gray }}>
-            The plan is generated with THIS company's selling logic. Set it once; it's saved in your browser.
+            {tr("s1.intro")}
           </p>
           <div className="mt-4 grid gap-4">
             <label className="text-sm font-medium">
-              Company / product name
+              {tr("s1.name")}
               <input
                 value={seller.nome}
                 onChange={(e) => setS("nome", e.target.value)}
-                placeholder="e.g., Wise, Adobe, RD Station, my consultancy"
+                placeholder={tr("s1.name.ph")}
                 className="mt-1 w-full rounded-lg px-3 py-2 text-base"
                 style={inputStyle}
               />
             </label>
             <label className="text-sm font-medium">
-              What you sell, differentiators and pains you solve
+              {tr("s1.desc")}
               <textarea
                 value={seller.descricao}
                 onChange={(e) => setS("descricao", e.target.value)}
                 rows={3}
-                placeholder="e.g., B2B marketing automation platform; cuts CAC and SDR ramp time; fixes fragmented data across CRM and media"
+                placeholder={tr("s1.desc.ph")}
                 className="mt-1 w-full rounded-lg px-3 py-2 text-base"
                 style={inputStyle}
               />
             </label>
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="text-sm font-medium">
-                Typical competitors <span style={{ color: t.gray, fontWeight: 400 }}>(optional)</span>
-                <input value={seller.concorrentes} onChange={(e) => setS("concorrentes", e.target.value)} placeholder="e.g., HubSpot, Salesforce, spreadsheets" className="mt-1 w-full rounded-lg px-3 py-2 text-base" style={inputStyle} />
+                {tr("s1.comp")} <span style={{ color: t.gray, fontWeight: 400 }}>({tr("opt")})</span>
+                <input value={seller.concorrentes} onChange={(e) => setS("concorrentes", e.target.value)} placeholder={tr("s1.comp.ph")} className="mt-1 w-full rounded-lg px-3 py-2 text-base" style={inputStyle} />
               </label>
               <label className="text-sm font-medium">
-                Target personas <span style={{ color: t.gray, fontWeight: 400 }}>(optional)</span>
-                <input value={seller.personas} onChange={(e) => setS("personas", e.target.value)} placeholder="e.g., CMO, Head of Growth, CFO" className="mt-1 w-full rounded-lg px-3 py-2 text-base" style={inputStyle} />
+                {tr("s1.pers")} <span style={{ color: t.gray, fontWeight: 400 }}>({tr("opt")})</span>
+                <input value={seller.personas} onChange={(e) => setS("personas", e.target.value)} placeholder={tr("s1.pers.ph")} className="mt-1 w-full rounded-lg px-3 py-2 text-base" style={inputStyle} />
               </label>
             </div>
           </div>
@@ -993,47 +1156,47 @@ export default function App() {
 
         <section className="no-print mt-6 p-6" style={{ background: t.card, border: `1px solid ${t.hair}`, borderRadius: 22, boxShadow: t.shadow }}>
           <h1 style={{ ...display, fontSize: 24, fontWeight: 700, lineHeight: 1.15 }}>
-            2 · Target account
+            {tr("s2.title")}
           </h1>
           <p className="mt-2 text-sm" style={{ color: t.gray }}>
-            Enter the account. The tool researches the company on the web and builds the plan using your seller's entry logic and enterprise GTM methodology.
+            {tr("s2.intro")}
           </p>
           <div className="mt-5 grid gap-4">
             <label className="text-sm font-medium">
-              Target company
+              {tr("s2.company")}
               <input
                 value={form.empresa}
                 onChange={(e) => set("empresa", e.target.value)}
-                placeholder="e.g., Loft, Infracommerce, Gol Airlines"
+                placeholder={tr("s2.company.ph")}
                 className="mt-1 w-full rounded-lg px-3 py-2 text-base"
                 style={inputStyle}
               />
             </label>
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="text-sm font-medium">
-                Segment
+                {tr("s2.segment")}
                 <select value={form.segmento} onChange={(e) => set("segmento", e.target.value)} className="mt-1 w-full rounded-lg px-3 py-2 text-base" style={inputStyle}>
-                  {SEGMENTOS.map((s) => (
-                    <option key={s}>{s}</option>
+                  {SEGMENTOS.map((s, i) => (
+                    <option key={s} value={s}>{SEGMENTOS_I18N[uiLang][i]}</option>
                   ))}
                 </select>
               </label>
               <label className="text-sm font-medium">
-                Size
+                {tr("s2.size")}
                 <select value={form.porte} onChange={(e) => set("porte", e.target.value)} className="mt-1 w-full rounded-lg px-3 py-2 text-base" style={inputStyle}>
-                  <option>Startup / SMB (up to 50 employees)</option>
-                  <option>Mid-market (50 to 500 employees)</option>
-                  <option>Enterprise (500+ employees)</option>
+                  <option value="Startup / SMB (up to 50 employees)">{SIZE_I18N[uiLang][0]}</option>
+                  <option value="Mid-market (50 to 500 employees)">{SIZE_I18N[uiLang][1]}</option>
+                  <option value="Enterprise (500+ employees)">{SIZE_I18N[uiLang][2]}</option>
                 </select>
               </label>
             </div>
             <label className="text-sm font-medium">
-              Additional context <span style={{ color: t.gray, fontWeight: 400 }}>(optional)</span>
+              {tr("s2.context")} <span style={{ color: t.gray, fontWeight: 400 }}>({tr("opt")})</span>
               <textarea
                 value={form.contexto}
                 onChange={(e) => set("contexto", e.target.value)}
                 rows={2}
-                placeholder="e.g., already uses Payoneer for payouts; opened a Mexico office in 2025"
+                placeholder={tr("s2.context.ph")}
                 className="mt-1 w-full rounded-lg px-3 py-2 text-base"
                 style={inputStyle}
               />
@@ -1051,7 +1214,7 @@ export default function App() {
                 fontSize: 17,
               }}
             >
-              {running ? "Generating plan..." : !sellerReady ? "Fill in your company above" : "Generate Account Plan"}
+              {running ? tr("btn.generating") : !sellerReady ? tr("btn.fillSeller") : tr("btn.generate")}
             </button>
             <button
               onClick={loadDemo}
@@ -1059,7 +1222,7 @@ export default function App() {
               className="px-5 py-3 font-semibold text-sm"
               style={{ background: t.soft, color: mode === "light" ? t.forest : t.bright, border: "none", borderRadius: 14, cursor: running ? "not-allowed" : "pointer" }}
             >
-              View sample plan
+              {tr("btn.sample")}
             </button>
             {error && (
               <p className="text-sm" style={{ color: t.danger }}>
@@ -1068,7 +1231,7 @@ export default function App() {
             )}
             {debug && (
               <p className="text-xs rounded-lg p-2" style={{ ...mono, color: t.gray, background: t.paper, border: `1px solid ${t.mist}`, wordBreak: "break-all" }}>
-                Diagnostics: {debug}
+                {tr("diag")}: {debug}
               </p>
             )}
           </div>
@@ -1076,9 +1239,9 @@ export default function App() {
 
         {Object.keys(status).length > 0 && (
           <section className="no-print mt-6 p-6" style={{ background: t.card, border: `1px solid ${t.hair}`, borderRadius: 22, boxShadow: t.shadow }}>
-            <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.08em" }}>PLAN ROUTE</p>
+            <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.08em" }}>{tr("route")}</p>
             <ol className="mt-3">
-              {STAGES.map((st, i) => {
+              {STAGES_I18N[uiLang].map((st, i) => {
                 const s = status[st.id];
                 return (
                   <li key={st.id} className="flex gap-3">
@@ -1120,10 +1283,10 @@ export default function App() {
                 {form.empresa}
               </h2>
               <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-                <Meta t={t} label="Tier" value={plan.tier || "-"} />
-                <Meta t={t} label="Segment" value={form.segmento.split(" /")[0]} />
-                <Meta t={t} label="Potential" value={plan.potencial || "-"} />
-                <Meta t={t} label="Footprint" value="Greenfield" />
+                <Meta t={t} label={tr("meta.tier")} value={plan.tier || "-"} />
+                <Meta t={t} label={tr("meta.segment")} value={form.segmento.split(" /")[0]} />
+                <Meta t={t} label={tr("meta.potential")} value={plan.potencial || "-"} />
+                <Meta t={t} label={tr("meta.footprint")} value={tr("meta.greenfield")} />
               </div>
               {plan.fitScore != null && (
                 <div className="mt-4 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.08)" }}>
@@ -1148,7 +1311,7 @@ export default function App() {
               )}
             </div>
 
-            <Section t={t} n="1" title="Account context">
+            <Section t={t} n="1" title={tr("sec.context")}>
               <p className="text-base leading-relaxed">{plan.visaoGeral}</p>
               {plan.iniciativas && (
                 <ul className="mt-3 grid gap-2">
@@ -1162,16 +1325,16 @@ export default function App() {
               )}
               {plan.insight && (
                 <div className="mt-4 rounded-xl p-4 text-sm" style={{ background: t.soft, borderLeft: `4px solid ${t.bright}` }}>
-                  <strong>Strategic insight:</strong> {plan.insight}
+                  <strong>{tr("insight")}</strong> {plan.insight}
                 </div>
               )}
             </Section>
 
             {plan.stakeholders && (
-              <Section t={t} n="2" title="Stakeholder map">
+              <Section t={t} n="2" title={tr("sec.stakeholders")}>
                 <Table
                   t={t}
-                  head={["Name / Role", "Role type", "Next step", "LinkedIn"]}
+                  head={[tr("th.nameRole"), tr("th.roleType"), tr("th.nextStep"), tr("th.linkedin")]}
                   rows={plan.stakeholders.map((s, idx) => [
                     <span key={"n" + idx}>
                       <strong>{s.nome}</strong>
@@ -1190,29 +1353,29 @@ export default function App() {
                       className="inline-block px-2 py-1 rounded-md text-xs font-semibold whitespace-nowrap"
                       style={{ background: t.soft, color: mode === "light" ? t.forest : t.bright, border: `1px solid ${t.bright}`, textDecoration: "none" }}
                     >
-                      Open profile ↗
+                      {tr("openProfile")}
                     </a>,
                   ])}
                 />
                 <p className="mt-2 text-xs" style={{ color: t.gray }}>
-                  Links open a LinkedIn people search by name/role + company, leading to the real profile with no risk of a broken link.
+                  {tr("stk.note")}
                 </p>
               </Section>
             )}
 
             {(plan.swot || (plan.faturamento && plan.faturamento.length > 0)) && (
-              <Section t={t} n="3" title="Strategic overview — SWOT and revenue">
+              <Section t={t} n="3" title={tr("sec.swot")}>
                 {plan.swot && (
                   <div className="grid gap-3 sm:grid-cols-2">
-                    <SwotCard t={t} tone="pos" label="Forças" items={plan.swot.forcas} />
-                    <SwotCard t={t} tone="neg" label="Fraquezas" items={plan.swot.fraquezas} />
-                    <SwotCard t={t} tone="pos" label="Oportunidades de entrada" items={plan.swot.oportunidades} />
-                    <SwotCard t={t} tone="neg" label="Ameaças ao deal" items={plan.swot.ameacas} />
+                    <SwotCard t={t} tone="pos" label={tr("swot.for")} items={plan.swot.forcas} />
+                    <SwotCard t={t} tone="neg" label={tr("swot.fra")} items={plan.swot.fraquezas} />
+                    <SwotCard t={t} tone="pos" label={tr("swot.opp")} items={plan.swot.oportunidades} />
+                    <SwotCard t={t} tone="neg" label={tr("swot.thr")} items={plan.swot.ameacas} />
                   </div>
                 )}
                 {plan.sinais && plan.sinais.length > 0 && (
                   <div className="mt-4 p-4" style={{ border: `1px solid ${t.mist}`, background: t.card, borderRadius: 14, boxShadow: t.shadow }}>
-                    <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>WHY NOW · BUYING SIGNALS</p>
+                    <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>{tr("whynow")}</p>
                     <div className="mt-2 grid gap-2.5">
                       {plan.sinais.map((s, i) => (
                         <div key={i} className="flex items-start gap-2.5 text-sm">
@@ -1230,20 +1393,20 @@ export default function App() {
                 {plan.faturamento && plan.faturamento.length > 0 ? (
                   <div className="mt-4 rounded-xl p-4" style={{ border: `1px solid ${t.mist}`, background: t.card }}>
                     <div className="flex items-baseline justify-between gap-2 flex-wrap">
-                      <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>ANNUAL REVENUE ({plan.moeda || ""})</p>
+                      <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>{tr("revenue")} ({plan.moeda || ""})</p>
                       <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: t.soft, color: mode === "light" ? t.forest : t.bright, border: `1px solid ${t.mist}` }}>
-                        {plan.confiabilidade === "público (RI/imprensa)" || plan.confiabilidade === "público" ? "public source" : "estimate — verify"}
+                        {plan.confiabilidade === "público (RI/imprensa)" || plan.confiabilidade === "público" ? tr("src.public") : tr("src.estimate")}
                       </span>
                     </div>
-                    <RevenueBars t={t} data={plan.faturamento} />
+                    <RevenueBars t={t} tr={tr} data={plan.faturamento} />
                     {plan.trimestral && Object.keys(plan.trimestral).length > 0 && (
-                      <QuarterChart t={t} mode={mode} data={plan.trimestral} moeda={plan.moeda} />
+                      <QuarterChart t={t} tr={tr} mode={mode} data={plan.trimestral} moeda={plan.moeda} />
                     )}
                   </div>
                 ) : (
                   plan.swot && (
                     <p className="mt-3 text-xs" style={{ color: t.gray }}>
-                      Revenue: no reliable public data found in research; chart omitted for rigor (nothing was estimated).
+                      {tr("revenue.none")}
                     </p>
                   )
                 )}
@@ -1251,31 +1414,31 @@ export default function App() {
             )}
 
             {plan.gaps && (
-              <Section t={t} n="4" title="Current state & gap analysis">
-                <Table t={t} head={["Category", "Current (estimated)", "Maturity", `${seller.nome || "Seller"} gap`]} rows={plan.gaps.map((g) => [g.categoria, g.atual, g.maturidade, g.gapWise])} />
+              <Section t={t} n="4" title={tr("sec.gap")}>
+                <Table t={t} head={[tr("th.category"), tr("th.current"), tr("th.maturity"), `${seller.nome || "Seller"} ${tr("th.gap")}`]} rows={plan.gaps.map((g) => [g.categoria, g.atual, g.maturidade, g.gapWise])} />
               </Section>
             )}
 
             {plan.plays && (
-              <Section t={t} n="5" title="Entry opportunities">
+              <Section t={t} n="5" title={tr("sec.plays")}>
                 <div className="grid gap-4">
                   {plan.plays.map((p, i) => (
                     <div key={i} className="p-4" style={{ border: `1px solid ${t.hair}`, background: t.card, borderRadius: 16, boxShadow: t.shadowSoft }}>
                       <div className="flex items-start justify-between gap-2">
                         <h4 style={{ ...display, fontWeight: 700 }}>
-                          Play #{i + 1} — {p.titulo}
+                          {tr("play")} #{i + 1} — {p.titulo}
                         </h4>
                         <span className="text-xs px-2 py-1 rounded-full whitespace-nowrap" style={{ background: i === 0 ? t.bright : t.mist, color: i === 0 ? t.forest : t.ink, fontWeight: 600 }}>
-                          {i === 0 ? "Entry point" : `Impact ${p.impacto || "-"}`}
+                          {i === 0 ? tr("entrypoint") : `${tr("impact")} ${p.impacto || "-"}`}
                         </span>
                       </div>
                       <p className="text-xs mt-1" style={{ ...mono, color: t.gray }}>
-                        {p.produtos} · {p.potencial} · effort {p.esforco}
+                        {p.produtos} · {p.potencial} · {tr("effort")} {p.esforco}
                       </p>
                       <p className="text-sm mt-2">{p.descricao}</p>
                       {p.trigger && (
                         <p className="text-sm mt-2" style={{ color: mode === "light" ? t.forest : t.bright }}>
-                          <strong>Trigger:</strong> {p.trigger}
+                          <strong>{tr("trigger")}</strong> {p.trigger}
                         </p>
                       )}
                     </div>
@@ -1285,31 +1448,31 @@ export default function App() {
             )}
 
             {plan.acoes && (
-              <Section t={t} n="6" title="Action plan — 90 days">
-                <Table t={t} head={["When", "Action", "Goal"]} rows={plan.acoes.map((a) => [a.quando, a.acao, a.objetivo])} />
+              <Section t={t} n="6" title={tr("sec.actions")}>
+                <Table t={t} head={[tr("th.when"), tr("th.action"), tr("th.goal")]} rows={plan.acoes.map((a) => [a.quando, a.acao, a.objetivo])} />
               </Section>
             )}
 
             {plan.riscos && (
-              <Section t={t} n="7" title="Risks & mitigations">
-                <Table t={t} head={["Risk", "Prob.", "Impact", "Mitigation"]} rows={plan.riscos.map((r) => [r.risco, r.prob, r.impacto, r.mitigacao])} />
+              <Section t={t} n="7" title={tr("sec.risks")}>
+                <Table t={t} head={[tr("th.risk"), tr("th.prob"), tr("th.impact"), tr("th.mitigation")]} rows={plan.riscos.map((r) => [r.risco, r.prob, r.impacto, r.mitigacao])} />
               </Section>
             )}
 
             {plan.pitch && (
-              <Section t={t} n="8" title="Core pitch — 4C framework (15 min)">
+              <Section t={t} n="8" title={tr("sec.pitch")}>
                 <div className="grid gap-3">
-                  <PitchCard t={t} label="Account context (2 min)" c={plan.pitch.abertura} />
-                  <PitchCard t={t} label="Conflict · structural problem (3 min)" c={plan.pitch.problema} />
-                  <PitchCard t={t} label={`${seller.nome || "Seller"} capability (5 min)`} c={plan.pitch.solucao} />
-                  <PitchCard t={t} label="CTA · small ask (2 min)" c={plan.pitch.cta} accent />
+                  <PitchCard t={t} label={tr("pitch.open")} c={plan.pitch.abertura} />
+                  <PitchCard t={t} label={tr("pitch.problem")} c={plan.pitch.problema} />
+                  <PitchCard t={t} label={`${seller.nome || "Seller"} ${tr("pitch.solution")}`} c={plan.pitch.solucao} />
+                  <PitchCard t={t} label={tr("pitch.cta")} c={plan.pitch.cta} accent />
                 </div>
               </Section>
             )}
 
             {plan.descoberta && (
-              <Section t={t} n="9" title="Discovery & objection handling">
-                <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>QUALIFICATION QUESTIONS (MEDDIC)</p>
+              <Section t={t} n="9" title={tr("sec.discovery")}>
+                <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>{tr("meddic")}</p>
                 <ol className="mt-2 grid gap-2">
                   {plan.descoberta.map((q, i) => (
                     <li key={i} className="flex gap-2 text-sm">
@@ -1320,11 +1483,11 @@ export default function App() {
                 </ol>
                 {plan.matriz && plan.matriz.length > 0 && (
                   <div className="mt-4">
-                    <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>MESSAGE MATRIX BY PERSONA</p>
+                    <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>{tr("matrix")}</p>
                     <div className="mt-2">
                       <Table
                         t={t}
-                        head={["Persona", "Specific pain", "Key message", "Channel"]}
+                        head={[tr("th.persona"), tr("th.pain"), tr("th.message"), tr("th.channel")]}
                         rows={plan.matriz.map((m, i) => [<strong key={"p" + i}>{m.persona}</strong>, m.dor, m.mensagem, m.canal])}
                       />
                     </div>
@@ -1332,7 +1495,7 @@ export default function App() {
                 )}
                 {plan.objecoes && (
                   <div className="mt-4 grid gap-3">
-                    <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>LIKELY OBJECTIONS</p>
+                    <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>{tr("objections")}</p>
                     {plan.objecoes.map((o, i) => (
                       <div key={i} className="p-4" style={{ border: `1px solid ${t.hair}`, background: t.card, borderRadius: 16, boxShadow: t.shadowSoft }}>
                         <p className="text-sm font-semibold" style={{ color: mode === "light" ? t.forest : t.bright }}>
@@ -1346,12 +1509,12 @@ export default function App() {
               </Section>
             )}
 
-            <Section t={t} n="10" title="Outreach cadence — Tier 1">
+            <Section t={t} n="10" title={tr("sec.cadence")}>
               <p className="text-sm mb-3" style={{ color: t.gray }}>
-                8 touchpoints over 30 days counted from first contact (Day 0 = connection request). Rule: the higher the tier, the more manual and less automated.
+                {tr("cadence.intro")}
               </p>
               <div className="overflow-hidden" style={{ border: `1px solid ${t.hair}`, borderRadius: 16, boxShadow: t.shadowSoft }}>
-                {CADENCIA_T1.map((c, i) => (
+                {CADENCIA_I18N[uiLang].map((c, i) => (
                   <div key={i} className="flex gap-3 px-4 py-3" style={{ background: i % 2 ? t.zebra : t.card, borderTop: i ? `1px solid ${t.mist}` : "none" }}>
                     <span style={{ ...mono, fontSize: 12, color: mode === "light" ? t.forest : t.bright, fontWeight: 700, minWidth: 56 }}>{c.dia}</span>
                     <div>
@@ -1364,9 +1527,9 @@ export default function App() {
             </Section>
 
             {plan.sintese && (
-              <Section t={t} n="11" title="Strategic synthesis & recommendations">
+              <Section t={t} n="11" title={tr("sec.synthesis")}>
                 <div className="rounded-xl p-5" style={{ background: t.forest, color: "#fff" }}>
-                  <p style={{ ...mono, fontSize: 11, color: t.bright, letterSpacing: "0.08em" }}>ACCOUNT READ</p>
+                  <p style={{ ...mono, fontSize: 11, color: t.bright, letterSpacing: "0.08em" }}>{tr("accountread")}</p>
                   <p className="text-sm mt-2 leading-relaxed">{plan.sintese}</p>
                 </div>
                 {plan.recomendacoes && (
@@ -1382,7 +1545,7 @@ export default function App() {
                 )}
                 {plan.proximoPasso && (
                   <div className="mt-3 rounded-xl p-4 flex items-start gap-3" style={{ background: t.soft, border: `1px solid ${t.bright}` }}>
-                    <span style={{ ...mono, fontSize: 11, color: mode === "light" ? t.forest : t.bright, fontWeight: 700, whiteSpace: "nowrap" }}>NEXT STEP →</span>
+                    <span style={{ ...mono, fontSize: 11, color: mode === "light" ? t.forest : t.bright, fontWeight: 700, whiteSpace: "nowrap" }}>{tr("nextstep")}</span>
                     <p className="text-sm font-medium">{plan.proximoPasso}</p>
                   </div>
                 )}
@@ -1392,7 +1555,7 @@ export default function App() {
             <div className="no-print mt-8">
               <div className="flex gap-3 flex-wrap">
                 <button onClick={exportPDF} className="px-5 py-3 font-semibold" style={{ background: mode === "light" ? t.forest : t.bright, color: mode === "light" ? "#fff" : t.forest, cursor: "pointer", border: "none", borderRadius: 14, fontSize: 17 }}>
-                  Save as PDF
+                  {tr("btn.pdf")}
                 </button>
                 <button
                   onClick={saveCurrentPlan}
@@ -1400,15 +1563,15 @@ export default function App() {
                   className="px-5 py-3 font-semibold"
                   style={{ background: currentSaved ? t.segTrack : t.soft, color: currentSaved ? t.gray : mode === "light" ? t.forest : t.bright, cursor: currentSaved ? "default" : "pointer", border: "none", borderRadius: 14, fontSize: 17 }}
                 >
-                  {currentSaved ? "✓ Plan saved" : "Save this plan"}
+                  {currentSaved ? tr("btn.savedPlan") : tr("btn.savePlan")}
                 </button>
               </div>
               <p className="mt-2 text-xs" style={{ color: t.gray }}>
-                In the dialog that opens, choose "Save as PDF". The file is named after the account and carries your signature in the footer.
+                {tr("pdf.note")}
               </p>
             </div>
             <p className="mt-4 text-xs" style={{ color: t.gray }}>
-              AI-generated draft with web research. Validate stakeholder and stack data before using it with your team.
+              {tr("disclaimer")}
             </p>
             <footer className="mt-8 pt-4 flex items-center gap-2" style={{ borderTop: `1px solid ${t.mist}` }}>
               <span style={{ width: 8, height: 8, borderRadius: 999, background: t.bright, display: "inline-block" }} />
@@ -1449,31 +1612,31 @@ export default function App() {
           >
             <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: `1px solid ${t.mist}` }}>
               <div style={{ lineHeight: 1.15 }}>
-                <span className="block" style={{ ...display, fontWeight: 700, fontSize: 18 }}>My Plans</span>
-                <span style={{ ...body, fontSize: 12, color: t.gray }}>Saved Plans</span>
+                <span className="block" style={{ ...display, fontWeight: 700, fontSize: 18 }}>{tr("hdr.myplans")}</span>
+                <span style={{ ...body, fontSize: 12, color: t.gray }}>{tr("hdr.saved")}</span>
               </div>
-              <button onClick={() => setDrawerOpen(false)} aria-label="Close" style={{ background: t.segTrack, border: "none", borderRadius: 999, width: 30, height: 30, cursor: "pointer", color: t.ink, fontSize: 16 }}>×</button>
+              <button onClick={() => setDrawerOpen(false)} aria-label={tr("hdr.close")} style={{ background: t.segTrack, border: "none", borderRadius: 999, width: 30, height: 30, cursor: "pointer", color: t.ink, fontSize: 16 }}>×</button>
             </div>
             <div style={{ overflowY: "auto", padding: 16, flex: 1 }}>
               {saved.length === 0 ? (
                 <div className="text-sm" style={{ color: t.gray, padding: "24px 8px", textAlign: "center" }}>
-                  No saved plans yet.
+                  {tr("hdr.savedEmpty")}
                   <br />
-                  Generate a plan and tap "Save this plan".
+                  {tr("hdr.savedHint")}
                 </div>
               ) : (
                 <div className="grid gap-2">
                   {saved.map((s) => (
                     <div key={s.id} className="p-3" style={{ background: t.field, borderRadius: 12 }}>
                       <p className="text-sm font-semibold" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        {s.empresa || "Untitled account"}
+                        {s.empresa || tr("hdr.untitled")}
                       </p>
                       <p className="text-xs mt-0.5" style={{ color: t.gray }}>
                         {s.vendedora} · {new Date(s.data).toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" })}
                       </p>
                       <div className="flex gap-2 mt-2">
-                        <button onClick={() => openSaved(s)} className="px-3 py-1.5 text-xs font-semibold" style={{ background: t.soft, color: mode === "light" ? t.forest : t.bright, border: "none", borderRadius: 999, cursor: "pointer" }}>Open</button>
-                        <button onClick={() => deleteSaved(s.id)} className="px-3 py-1.5 text-xs font-semibold" style={{ background: "transparent", color: t.gray, border: "none", borderRadius: 999, cursor: "pointer" }}>Delete</button>
+                        <button onClick={() => openSaved(s)} className="px-3 py-1.5 text-xs font-semibold" style={{ background: t.soft, color: mode === "light" ? t.forest : t.bright, border: "none", borderRadius: 999, cursor: "pointer" }}>{tr("hdr.open")}</button>
+                        <button onClick={() => deleteSaved(s.id)} className="px-3 py-1.5 text-xs font-semibold" style={{ background: "transparent", color: t.gray, border: "none", borderRadius: 999, cursor: "pointer" }}>{tr("hdr.delete")}</button>
                       </div>
                     </div>
                   ))}
@@ -1481,7 +1644,7 @@ export default function App() {
               )}
             </div>
             <p className="px-5 py-3 text-xs" style={{ color: t.gray, borderTop: `1px solid ${t.mist}` }}>
-              Saved in this browser only. Up to 30 plans.
+              {tr("hdr.savedFooter")}
             </p>
           </aside>
         </div>
@@ -1625,17 +1788,17 @@ function SwotCard({ t, tone, label, items }) {
   );
 }
 
-function RevenueBars({ t, data }) {
+function RevenueBars({ t, tr, data }) {
   // Ano único: indicador em destaque com nota honesta (sem série, sem gráfico enganoso)
   if (data.length === 1) {
     return (
       <div className="mt-3">
         <p style={{ fontFamily: SYSTEM_FONT, fontSize: 34, fontWeight: 700, letterSpacing: "-0.02em" }}>
           {data[0].valor}
-          <span className="text-sm font-medium ml-2" style={{ color: t.gray }}>in {data[0].ano}</span>
+          <span className="text-sm font-medium ml-2" style={{ color: t.gray }}>{tr("rev.in")} {data[0].ano}</span>
         </p>
         <p className="text-xs mt-1" style={{ color: t.gray }}>
-          Prior-year history not found in public sources; showing only the confirmed figure.
+          {tr("rev.noHistory")}
         </p>
       </div>
     );
@@ -1687,7 +1850,7 @@ function d0(data, i) {
   return data[i].ano;
 }
 
-function QuarterChart({ t, mode, data, moeda }) {
+function QuarterChart({ t, tr, mode, data, moeda }) {
   const anos = Object.keys(data).sort();
   const [sel, setSel] = useState(anos[anos.length - 1]);
   // Opening another saved plan reuses this component instance, so `sel` can
@@ -1706,7 +1869,7 @@ function QuarterChart({ t, mode, data, moeda }) {
   return (
     <div className="mt-5 pt-4" style={{ borderTop: `1px solid ${t.mist}` }}>
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>QUARTERLY COMPARISON ({moeda || ""}) · SOURCE: filings/IR</p>
+        <p style={{ ...mono, fontSize: 11, color: t.gray, letterSpacing: "0.06em" }}>{tr("quarterly")} ({moeda || ""}) · {tr("quarterly.src")}</p>
         <div className="flex p-0.5" style={{ background: t.segTrack, borderRadius: 10 }}>
           {anos.map((a) => (
             <button
@@ -1754,7 +1917,7 @@ function QuarterChart({ t, mode, data, moeda }) {
       </div>
       {prevAno && (
         <p className="mt-1 text-xs" style={{ color: t.gray }}>
-          Light bars: {prevAno} · Highlighted bars: {sel} · Change shown is year-over-year per quarter.
+          {tr("quarterly.note.a")} {prevAno} · {tr("quarterly.note.b")} {sel} · {tr("quarterly.note.c")}
         </p>
       )}
     </div>
