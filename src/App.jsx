@@ -856,6 +856,15 @@ export default function App() {
     }
   }
 
+  // Header language toggle handler. Always usable (the toggle now lives in the
+  // header): with a plan present it translates it; with no plan yet it just
+  // records the target language for the next translation.
+  function setPlanLang(target) {
+    if (target === contentLang || translating) return;
+    if (plan && plan.visaoGeral) translatePlan(target);
+    else setContentLang(target);
+  }
+
   const hasPlan = plan && plan.visaoGeral;
   const inputStyle = { border: "none", background: t.field, color: t.ink, borderRadius: 12 };
 
@@ -935,8 +944,8 @@ export default function App() {
             >
               LATAM · B2B
             </span>
-            {hasPlan && <LangToggle t={t} lang={contentLang} onChange={translatePlan} busy={translating} />}
-            <SegmentedControl t={t} mode={mode} onChange={setMode} />
+            <LangToggle t={t} lang={contentLang} onChange={setPlanLang} busy={translating} />
+            <ThemeIconButton t={t} mode={mode} onChange={setMode} />
           </div>
         </div>
       </header>
@@ -1505,12 +1514,12 @@ function LangToggle({ t, lang, onChange, busy }) {
             onClick={() => onChange(o)}
             className="px-3 py-1 text-xs font-semibold"
             style={{
-              background: active ? t.segActive : "transparent",
-              color: active ? t.ink : t.gray,
+              background: active ? t.bright : "transparent",
+              color: active ? t.forest : t.gray,
               border: "none",
               borderRadius: 8,
               cursor: busy ? "wait" : "pointer",
-              boxShadow: active ? "0 1px 4px rgba(0,0,0,0.12)" : "none",
+              boxShadow: active ? "0 1px 4px rgba(22,51,0,0.18)" : "none",
             }}
           >
             {o}
@@ -1521,41 +1530,31 @@ function LangToggle({ t, lang, onChange, busy }) {
   );
 }
 
-function SegmentedControl({ t, mode, onChange }) {
-  const opts = [
-    { id: "light", label: "Light" },
-    { id: "dark", label: "Dark" },
-  ];
+// Single moon/sun icon theme toggle (standardized with ABM Orchestrator).
+// Inline SVG so it needs no icon library. Shows the icon of the theme you'd
+// switch TO: a moon in light mode, a sun in dark mode.
+function ThemeIconButton({ t, mode, onChange }) {
+  const dark = mode === "dark";
   return (
-    <div
-      role="tablist"
-      aria-label="Theme"
-      className="flex p-0.5"
-      style={{ background: t.segTrack, borderRadius: 10 }}
+    <button
+      type="button"
+      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+      title={dark ? "Light" : "Dark"}
+      onClick={() => onChange(dark ? "light" : "dark")}
+      className="flex items-center justify-center"
+      style={{ width: 34, height: 34, background: t.segTrack, border: "none", borderRadius: 10, cursor: "pointer", color: t.ink }}
     >
-      {opts.map((o) => {
-        const active = mode === o.id;
-        return (
-          <button
-            key={o.id}
-            role="tab"
-            aria-selected={active}
-            onClick={() => onChange(o.id)}
-            className="px-3 py-1 text-xs font-semibold"
-            style={{
-              background: active ? t.segActive : "transparent",
-              color: active ? t.ink : t.gray,
-              border: "none",
-              borderRadius: 8,
-              cursor: "pointer",
-              boxShadow: active ? "0 1px 4px rgba(0,0,0,0.12)" : "none",
-            }}
-          >
-            {o.label}
-          </button>
-        );
-      })}
-    </div>
+      {dark ? (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+        </svg>
+      ) : (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      )}
+    </button>
   );
 }
 
