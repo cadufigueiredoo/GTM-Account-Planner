@@ -679,10 +679,19 @@ export default function App() {
   const tr = (k) => (UI[uiLang] && UI[uiLang][k]) || UI.EN[k] || k;
   useEffect(() => { try { localStorage.setItem("gtm-planner-lang", uiLang); } catch (e) {} }, [uiLang]);
   function switchLang(target) {
-    if (target === uiLang && target === contentLang) return;
-    setUiLang(target);
-    setPlanLang(target); // translate the plan content into the same language
+    setUiLang(target); // the effect below brings the plan content into this language
   }
+
+  // Generation always produces a Portuguese plan, so when the UI language is
+  // English (or the user just toggled) the generated content would stay in the
+  // wrong language. This keeps the plan in sync with the selected language —
+  // after generation completes AND on every toggle.
+  useEffect(() => {
+    if (!running && !translating && plan && plan.visaoGeral && contentLang !== uiLang) {
+      translatePlan(uiLang);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uiLang, running, plan]);
   const runRef = useRef({ brief: null, intel: "", saveId: null });
   const [saved, setSaved] = useState(() => {
     try {
