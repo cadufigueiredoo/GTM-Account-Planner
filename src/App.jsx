@@ -997,14 +997,17 @@ export default function App() {
       ];
       let next = { ...p };
       const failed = [];
-      for (const g of groups) {
+      // Translate the groups in PARALLEL — they are independent, so this cuts the
+      // wait from the sum of all requests to the slowest single one. Each callback
+      // finishes atomically on the single JS thread, so `next` accumulates safely.
+      await Promise.all(groups.map(async (g) => {
         const payload = {};
         for (const k of Object.keys(g)) {
           const v = g[k];
           const populated = Array.isArray(v) ? v.length > 0 : v != null && v !== "";
           if (populated) payload[k] = v;
         }
-        if (!Object.keys(payload).length) continue;
+        if (!Object.keys(payload).length) return;
         try {
           const text = await withRetry(
             () => callClaude([{ role: "user", content: sys + "\n\nTranslate this JSON:\n" + JSON.stringify(payload) }], undefined, 3000),
@@ -1015,7 +1018,7 @@ export default function App() {
         } catch (e) {
           failed.push(Object.keys(payload).join(", "));
         }
-      }
+      }));
       setPlan(next);
       setContentLang(target);
       if (failed.length) {
