@@ -643,6 +643,131 @@ const CADENCIA_I18N = {
   ],
 };
 
+/* ---------- Registration gate (lead capture) ------------------------------ */
+// A visitor must register before the tool unlocks. Bilingual, English by
+// default (per brand owner), remembered in localStorage, and forwarded to
+// /api/lead → Google Sheet. "Carlos Eduardo" links to LinkedIn.
+const LEAD_KEY = "leadgate.registered";
+const LEAD_LINKEDIN = "https://www.linkedin.com/in/carloseduardovf/";
+const LEAD_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function readLead() {
+  try { const raw = localStorage.getItem(LEAD_KEY); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+}
+const LEAD_COPY = {
+  EN: {
+    kicker: "Restricted access", ipPre: "This tool is the intellectual property of ", ipName: "Carlos Eduardo",
+    sub: "Complete your registration below to access it.",
+    name: "Full name", email: "Work email", company: "Company", phone: "Phone", optional: "optional",
+    submit: "Access tool", submitting: "Submitting…", required: "Required", bademail: "Enter a valid email.",
+    error: "Couldn't submit. Please check your connection and try again.",
+    privacy: "Used only to know who's accessing the tool.",
+    light: "Light", dark: "Dark",
+  },
+  PT: {
+    kicker: "Acesso restrito", ipPre: "Esta ferramenta é propriedade intelectual de ", ipName: "Carlos Eduardo",
+    sub: "Conclua seu registro abaixo para acessá-la.",
+    name: "Nome completo", email: "E-mail corporativo", company: "Empresa", phone: "Telefone", optional: "opcional",
+    submit: "Acessar ferramenta", submitting: "Enviando…", required: "Obrigatório", bademail: "Informe um e-mail válido.",
+    error: "Não foi possível enviar. Verifique a conexão e tente de novo.",
+    privacy: "Usado apenas para saber quem acessa a ferramenta.",
+    light: "Claro", dark: "Escuro",
+  },
+};
+function LockIcon({ color }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+  );
+}
+function LeadGate({ t, mode, setMode, source, onDone }) {
+  const [lang, setLang] = useState("EN");
+  const [f, setF] = useState({ name: "", email: "", company: "", phone: "" });
+  const [touched, setTouched] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState(null);
+  const c = LEAD_COPY[lang];
+  const accent = mode === "dark" ? t.bright : t.forest;
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+  const set = (k) => (e) => setF((s) => ({ ...s, [k]: e.target.value }));
+  const nameErr = touched && !f.name.trim() ? c.required : null;
+  const companyErr = touched && !f.company.trim() ? c.required : null;
+  const emailErr = touched ? (!f.email.trim() ? c.required : !LEAD_EMAIL_RE.test(f.email.trim()) ? c.bademail : null) : null;
+  const valid = f.name.trim() && f.company.trim() && LEAD_EMAIL_RE.test(f.email.trim());
+  async function submit(e) {
+    e.preventDefault();
+    setTouched(true); setErr(null);
+    if (!valid) return;
+    const lead = { name: f.name.trim(), email: f.email.trim(), company: f.company.trim(), phone: f.phone.trim() || undefined, ts: Date.now() };
+    setBusy(true);
+    try {
+      const res = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...lead, source, lang }) });
+      if (!res.ok) throw new Error("submit failed");
+      try { localStorage.setItem(LEAD_KEY, JSON.stringify(lead)); } catch (e2) {}
+      onDone(lead);
+    } catch (e2) { setErr(c.error); setBusy(false); }
+  }
+  const label = { display: "block", marginBottom: 5, fontSize: 12, fontWeight: 600, color: t.gray };
+  const input = { width: "100%", background: t.field, border: `1px solid ${t.hair}`, borderRadius: 12, padding: "11px 13px", fontSize: 14, color: t.ink, outline: "none", font: "inherit" };
+  const errStyle = { marginTop: 4, fontSize: 11, color: t.danger };
+  const segBtn = (active) => ({ padding: "6px 11px", fontSize: 12, textTransform: "uppercase", border: "none", cursor: "pointer", borderRadius: 8, background: active ? t.segActive : "transparent", color: active ? t.ink : t.gray, fontWeight: 600 });
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 9999, display: "grid", placeItems: "center", overflowY: "auto", padding: 16, background: mode === "dark" ? "rgba(0,0,0,0.6)" : "rgba(10,25,0,0.28)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}>
+      <style>{`@keyframes lg-spin { to { transform: rotate(360deg); } }`}</style>
+      <div style={{ width: "100%", maxWidth: 440, background: t.card, color: t.ink, borderRadius: 24, padding: 26, boxShadow: t.shadow }}>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 18 }}>
+          <span style={{ display: "grid", placeItems: "center", width: 44, height: 44, borderRadius: 15, background: t.forest }}>
+            <LockIcon color={t.bright} />
+          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ display: "inline-flex", overflow: "hidden", borderRadius: 10, background: t.segTrack, padding: 2 }}>
+              {["EN", "PT"].map((l) => (<button key={l} type="button" onClick={() => setLang(l)} style={segBtn(lang === l)}>{l}</button>))}
+            </div>
+            <ThemeIconButton t={t} mode={mode} onChange={setMode} />
+          </div>
+        </div>
+        <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", color: accent }}>{c.kicker}</p>
+        <h2 style={{ margin: "6px 0 0", fontSize: 19, fontWeight: 700, lineHeight: 1.35, letterSpacing: "-0.01em", color: t.ink }}>
+          {c.ipPre}
+          <a href={LEAD_LINKEDIN} target="_blank" rel="noopener noreferrer" style={{ color: accent, textDecoration: "underline", textUnderlineOffset: 2 }}>{c.ipName}</a>.
+        </h2>
+        <p style={{ margin: "6px 0 0", fontSize: 13.5, color: t.gray }}>{c.sub}</p>
+        <form onSubmit={submit} noValidate style={{ marginTop: 18, display: "grid", gap: 13 }}>
+          <div>
+            <label style={label} htmlFor="lg-name">{c.name}</label>
+            <input id="lg-name" style={input} value={f.name} onChange={set("name")} autoComplete="name" />
+            {nameErr && <p style={errStyle}>{nameErr}</p>}
+          </div>
+          <div>
+            <label style={label} htmlFor="lg-email">{c.email}</label>
+            <input id="lg-email" type="email" style={input} value={f.email} onChange={set("email")} autoComplete="email" />
+            {emailErr && <p style={errStyle}>{emailErr}</p>}
+          </div>
+          <div>
+            <label style={label} htmlFor="lg-company">{c.company}</label>
+            <input id="lg-company" style={input} value={f.company} onChange={set("company")} autoComplete="organization" />
+            {companyErr && <p style={errStyle}>{companyErr}</p>}
+          </div>
+          <div>
+            <label style={label} htmlFor="lg-phone">{c.phone} <span style={{ color: t.gray, opacity: 0.7 }}>({c.optional})</span></label>
+            <input id="lg-phone" type="tel" style={input} value={f.phone} onChange={set("phone")} autoComplete="tel" />
+          </div>
+          {err && <p style={{ margin: 0, fontSize: 12, color: t.danger }}>{err}</p>}
+          <button type="submit" disabled={busy} style={{ marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", border: "none", borderRadius: 12, padding: "12px 16px", fontSize: 14, fontWeight: 700, color: t.forest, cursor: busy ? "default" : "pointer", opacity: busy ? 0.6 : 1, background: t.bright, boxShadow: t.shadowSoft }}>
+            {busy ? <span style={{ width: 15, height: 15, border: `2px solid ${t.forest}`, borderTopColor: "transparent", borderRadius: "50%", display: "inline-block", animation: "lg-spin 0.7s linear infinite" }} /> : null}
+            {busy ? c.submitting : c.submit}
+          </button>
+          <p style={{ margin: 0, textAlign: "center", fontSize: 11, color: t.gray, opacity: 0.8 }}>{c.privacy}</p>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [mode, setMode] = useState(() => {
     try {
@@ -652,6 +777,7 @@ export default function App() {
     }
   });
   const t = THEMES[mode];
+  const [lead, setLead] = useState(() => readLead());
 
   const [seller, setSeller] = useState(() => {
     try {
@@ -1045,6 +1171,7 @@ export default function App() {
 
   return (
     <div style={{ ...body, backgroundColor: t.paper, backgroundImage: t.atmo, backgroundAttachment: "fixed", color: t.ink, minHeight: "100vh", colorScheme: mode, WebkitFontSmoothing: "antialiased" }}>
+      {!lead && <LeadGate t={t} mode={mode} setMode={setMode} source="GTM Account Planner" onDone={setLead} />}
       <style>{`
         @media print {
           .no-print { display: none !important; }
